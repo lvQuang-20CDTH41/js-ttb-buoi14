@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .txt{
+            background: yellow;
+            padding: 2px;
+            width: 200px;
+        }
+        .tmt{
+            background: red;
+            padding: 2px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" name="" id="content">
+    <input type="time" name="" id="time_begin">
+    <input type="time" name="" id="time_end">
+    <button onclick="addTask()">Add Task</button>
+    <div id="tasks">
+
+    </div>
+    <script>
+        class Task {
+            constructor(id, content, time_begin, time_end){
+                this.__id = id;
+                this.__content = content;
+                this.__time_begin = time_begin;
+                this.__time_end = time_end;
+            }
+
+            set id(value) { this.__id = id }
+            get id(){ return this.__id }
+
+            set content(value) { this.__content = content }
+            get content(){ return this.__content }
+
+            set time_begin(value) { this.__time_begin = time_begin }
+            get time_begin(){ return this.__time_begin }
+            
+            set time_end(value) { this.__time_end = time_end }
+            get time_end(){ return this.__time_end }
+        }
+
+        var tasks = new Array();
+        var id = 0;
+
+        function addTask() {
+            var content = document.getElementById('content').value;
+            var time_begin = document.getElementById('time_begin').value;
+            var time_end = document.getElementById('time_end').value;
+
+            var task = new Task(id++, content, time_begin, time_end);
+            tasks.push(task);
+            render();
+        }
+           
+
+        function render(){ 
+            var domTasks = document.getElementById('tasks');
+            var html = '';
+            tasks.forEach(task => {
+                html = html + '<p><b>' + task.content + '</b><span>' 
+                    + task.time_begin + ' | ' 
+                    + task.time_end + '</span></p><button onclick="dlt(' + task.id + ')" id="btn_delete_'
+                    + task.id +'">Delete</button> <button onclick="udt(' + task.id + ')" id="btn_update_'
+                    + task.id +'">Update</button>';
+            });
+           
+            domTasks.innerHTML = html;
+        }
+        
+        function dlt(id){
+            tasks = tasks.filter(item => item.id !== id)
+            render();
+            console.log(tasks);
+        }
+
+        function udt(id){
+            alert(id);
+            
+        }
+    </script>
+</body>
+</html>
